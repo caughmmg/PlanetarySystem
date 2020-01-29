@@ -1,0 +1,44 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(LineRenderer))]
+public class EllipseRenderer : MonoBehaviour
+{
+    LineRenderer lr;
+
+    [Range(3, 36)]
+    public int segments;
+    public Ellipse ellipse;
+
+
+    void Awake()
+    {
+        //This is the Render of the actual Ellipse that will show the orbiting path
+        lr = GetComponent<LineRenderer>();
+        CalculateEllipse();
+    
+    }//End Awake
+
+    /// <summary>
+    /// Calculates an ellipse with the xAxis sin and yAxis cos
+    /// </summary>
+    void CalculateEllipse()
+    {
+        //Array of points the ellipse will have, the more segments the rounder the ellipse
+        Vector3[] points = new Vector3[segments + 1];
+        for (int i = 0; i < segments; i++)
+        {
+            //Gets our positions for the Ellipse by Calculating for t from the Ellipse classes Evaluate function
+            Vector2 position2D = ellipse.Evaluate(((float)i / (float)segments));
+
+            //creates a new point on the array wit the x and y value of the new angle
+            points[i] = new Vector3(position2D.x, position2D.y, 0f);
+        }
+        //the last point of Segments array will be same same as the first point
+        points[segments] = points[0];
+
+        lr.positionCount = segments + 1;
+        lr.SetPositions(points);
+    }//End CalculateEllipse
+}//End Class
