@@ -5,9 +5,13 @@ using UnityEngine;
 public class OrbitMotion : MonoBehaviour
 {
     /// <summary>
-    /// The planet the is orbiting
+    /// The planet that is orbiting
     /// </summary>
     public Transform orbitingObject;
+    /// <summary>
+    /// what is being orbited around
+    /// </summary>
+    public Transform centerPoint;
     /// <summary>
     /// the Ellipse that the planet will transform around
     /// </summary>
@@ -45,14 +49,15 @@ public class OrbitMotion : MonoBehaviour
     {
         //Takes the angle of the Ellipse and translates it to orbit position
         Vector2 orbitPosition = orbitPath.Evaluate(orbitProgress);
-        orbitingObject.localPosition = new Vector3(orbitPosition.x, 0, orbitPosition.y);
+       Vector3 pos = new Vector3(orbitPosition.x, 0, orbitPosition.y);
+        orbitingObject.position = pos + centerPoint.position;
     }
 
     IEnumerator AnimateOrbit()
     {
-        if(orbitPeriod < 0.1f)
+        if(orbitPeriod < 1f)
         {
-            orbitPeriod = 0.1f;
+            orbitPeriod = 1f;
         }
         float orbitSpeed = 1f / orbitPeriod;
         while (orbitActive)

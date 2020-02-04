@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class Ellipse 
 {
+
+
     public float xAxis;
     public float yAxis;
 
